@@ -40,14 +40,10 @@ def callback(
         }
 
         for node in manifest_nodes:
-            if node not in catalog_nodes:
-                table_columns.append((node.split(".")[-1], ""))
-                error_on_exit = True
-            else:
-                for column in manifest_nodes[node]:
-                    if column not in catalog_nodes[node]:
-                        table_columns.append((node.split(".")[-1], column))
-                        error_on_exit = True
+            for column in manifest_nodes[node]:
+                if node in catalog_nodes and column not in catalog_nodes[node]:
+                    table_columns.append((node.split(".")[-1], column))
+                    error_on_exit = True
     else:
         typer.echo(
             f"Could not find manifest.json and catalog.json at {target_dir}, did you run 'dbt docs generate'?"
@@ -58,7 +54,7 @@ def callback(
         typer.secho(
             tabulate(
                 sorted(table_columns, key=itemgetter(1, 0)),
-                headers=["Missing SQL Node", "Missing SQL Column (If Applicable)"],
+                headers=["SQL Node", "Missing Column"],
                 tablefmt="pretty",
             ),
             fg=typer.colors.YELLOW,

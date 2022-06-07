@@ -14,14 +14,13 @@ pip install dbt-yaml-check
 
 ```shell
 $ cd jaffle_shop
-$ dbt run
-$ dbt docs generate
+$ dbt docs generate --warn-error
 $ dbt-yaml-check
-+------------------+------------------------------------+
-| Missing SQL Node | Missing SQL Column (If Applicable) |
-+------------------+------------------------------------+
-|    customers     |         total_order_amount         |
-+------------------+------------------------------------+
++-----------+--------------------+
+| SQL Node  |   Missing Column   |
++-----------+--------------------+
+| customers | total_order_amount |
++-----------+--------------------+
 ```
 
 ## FAQ
@@ -29,4 +28,3 @@ $ dbt-yaml-check
 ### How can I specify a custom target directory?
 
 Use the `target-dir` option like so: `dbt-yaml-check --target-dir <path_to_your_target>`.
-

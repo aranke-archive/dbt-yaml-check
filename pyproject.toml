@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dbt-yaml-check"
-version = "0.1.0"
+version = "0.2.0"
 description = "`dbt-yaml-check` is a utility to check that `dbt` nodes defined in YAML exist in SQL."
 authors = ["Kshitij Aranke <kshitij@aranke.org>"]
 readme = "README.md"
