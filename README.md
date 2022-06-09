@@ -1,6 +1,6 @@
-[![test](https://github.com/k-aranke/dbt-yaml-check/actions/workflows/test.yml/badge.svg)](https://github.com/k-aranke/dbt-yaml-check/actions/workflows/test.yml)
-
 # dbt-yaml-check
+![PyPI](https://img.shields.io/pypi/v/dbt-yaml-check)
+[![test](https://github.com/k-aranke/dbt-yaml-check/actions/workflows/test.yml/badge.svg)](https://github.com/k-aranke/dbt-yaml-check/actions/workflows/test.yml)
 
 `dbt-yaml-check` checks that columns defined in YAML also exist in SQL.
 
