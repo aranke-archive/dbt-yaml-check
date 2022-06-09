@@ -1,5 +1,4 @@
 import json
-import csv
 from operator import itemgetter
 from pathlib import Path
 
@@ -13,11 +12,10 @@ app = typer.Typer(add_completion=False)
 def callback(
     target_dir: Path = typer.Option(
         default="target", exists=True, file_okay=False, dir_okay=True
-    ),
-    csv: bool = typer.Option(default=False)
+    )
 ):
     """
-    `dbt-yaml-check` is a utility to check that `dbt` nodes defined in YAML exist in SQL.
+    dbt-yaml-check checks that columns defined in YAML also exist in SQL.
     """
     manifest_file = target_dir / "manifest.json"
     catalog_file = target_dir / "catalog.json"
