@@ -1,6 +1,8 @@
 # dbt-yaml-check
 
-`dbt-yaml-check` is a utility to check that `dbt` nodes (✅models ✅seeds ❌tests) defined in YAML exist in SQL.
+`dbt-yaml-check` checks that columns defined in YAML also exist in SQL.
+
+This is particularly useful for identifying extraneous columns and typos in column names.
 
 ## Installation
 
@@ -14,13 +16,14 @@ pip install dbt-yaml-check
 
 ```shell
 $ cd jaffle_shop
-$ dbt docs generate --warn-error
+$ dbt run
+$ dbt docs generate
 $ dbt-yaml-check
-+-----------+--------------------+
-| SQL Node  |   Missing Column   |
-+-----------+--------------------+
-| customers | total_order_amount |
-+-----------+--------------------+
++-----------+--------------------+-----+------+
+|   Model   |       Column       | SQL | YAML |
++-----------+--------------------+-----+------+
+| customers | total_order_amount |  ✕  |  ✓   |
++-----------+--------------------+-----+------+
 ```
 
 ## FAQ
