@@ -1,4 +1,5 @@
 import json
+import csv
 from operator import itemgetter
 from pathlib import Path
 
@@ -12,7 +13,8 @@ app = typer.Typer(add_completion=False)
 def callback(
     target_dir: Path = typer.Option(
         default="target", exists=True, file_okay=False, dir_okay=True
-    )
+    ),
+    csv: bool = typer.Option(default=False)
 ):
     """
     `dbt-yaml-check` is a utility to check that `dbt` nodes defined in YAML exist in SQL.
@@ -31,7 +33,7 @@ def callback(
         manifest_nodes = {
             k.lower(): [c.lower() for c in v["columns"].keys()]
             for k, v in manifest["nodes"].items()
-            if v["resource_type"] != "test"
+            if v["resource_type"] == "model"
         }
 
         catalog_nodes = {
@@ -42,7 +44,7 @@ def callback(
         for node in manifest_nodes:
             for column in manifest_nodes[node]:
                 if node in catalog_nodes and column not in catalog_nodes[node]:
-                    table_columns.append((node.split(".")[-1], column))
+                    table_columns.append((node.split(".")[-1], column, "✕", "✓"))
                     error_on_exit = True
     else:
         typer.echo(
@@ -53,11 +55,10 @@ def callback(
     if table_columns:
         typer.secho(
             tabulate(
-                sorted(table_columns, key=itemgetter(1, 0)),
-                headers=["SQL Node", "Missing Column"],
+                sorted(table_columns, key=itemgetter(0, 1)),
+                headers=["Model", "Column", "SQL", "YAML"],
                 tablefmt="pretty",
-            ),
-            fg=typer.colors.YELLOW,
+            )
         )
 
     if error_on_exit:
